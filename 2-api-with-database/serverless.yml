@@ -1,0 +1,46 @@
+service: api-with-database
+frameworkVersion: '3'
+
+custom:
+  usersTableName: 'users-for-talk'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: eu-west-2
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+      Resource: { "Fn::GetAtt" : ["usersTable", "Arn"]  }
+
+
+
+functions:
+  getUsers:
+    handler: handler.getUsers
+    events:
+      - http:
+          path: /users
+          method: get
+    environment:
+      USERS_TABLE_NAME: ${self:custom.usersTableName}
+
+resources:
+  Resources:
+    usersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.usersTableName}
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
