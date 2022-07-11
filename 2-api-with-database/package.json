@@ -1,0 +1,10 @@
+{
+  "name": "2-api-with-database",
+  "version": "1.0.0",
+  "devDependencies": {
+    "aws-sdk": "^2.1172.0"
+  },
+  "scripts": {
+    "deploy": "sls deploy"
+  }
+}

@@ -1,0 +1,4 @@
+#!/bin/zsh
+
+
+aws s3 sync ./app s3://intro-serverless-web-deployment-bucket
