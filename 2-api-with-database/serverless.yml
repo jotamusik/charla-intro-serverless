@@ -17,8 +17,6 @@ provider:
         - dynamodb:GetItem
       Resource: { "Fn::GetAtt" : ["usersTable", "Arn"]  }
 
-
-
 functions:
   getUsers:
     handler: handler.getUsers
